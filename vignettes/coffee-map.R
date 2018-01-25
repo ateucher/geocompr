@@ -12,9 +12,8 @@ coffee_data = slice(d, -c(1:5)) %>%
   mutate_at(2:3, str_replace, " ", "") %>% 
   mutate_at(2:3, as.integer)
 write_csv(coffee_data, "extdata/coffee-data.csv")
-coffee_data = read_csv("~/repos/geocompr/extdata/coffee-data.csv")
 world_coffee = left_join(world, coffee_data)
 plot(world_coffee[c("y16", "y17")])
 # library(tmap)
-qtm(world_coffee, "y17", fill.title = "Thousand 60kg bags")
+# qtm(world_coffee, "y17", fill.title = "Thousand 60kg bags")
 # tmap_mode("view") # for an interactive version
