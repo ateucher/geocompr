@@ -5,15 +5,16 @@ library(sf)
 # u = "http://www.ico.org/prices/m1-exports.pdf"
 # download.file(u, "data.pdf")
 # install.packages("pdftables") # also requires an api key
-# pdftables::convert_pdf(input_file = "data.pdf", output_file = "data.csv")
-# d = read_csv("data.csv")
-# d = d[-c(1:5), 1:3]
-# names(d) = c("name_long", "y16", "y17")
-# write_csv(d, "extdata/coffee-data.csv")
+# pdftables::convert_pdf(input_file = "data.pdf", output_file = "extdata/coffee-data-messy.csv")
+d = read_csv("extdata/coffee-data-messy.csv")
+coffee_data = slice(d, -c(1:5)) %>% 
+  select(name_long = 1, y16 = 2, y17 = 3) %>% 
+  mutate_at(2:3, str_replace, " ", "") %>% 
+  mutate_at(2:3, as.integer)
+write_csv(coffee_data, "extdata/coffee-data.csv")
 coffee_data = read_csv("~/repos/geocompr/extdata/coffee-data.csv")
 world_coffee = left_join(world, coffee_data)
 plot(world_coffee[c("y16", "y17")])
-# for an interactive version
 # library(tmap)
 # qtm(world_coffee, c("y16", "y17"))
-# tmap_mode("view")
+# tmap_mode("view") # for an interactive version
